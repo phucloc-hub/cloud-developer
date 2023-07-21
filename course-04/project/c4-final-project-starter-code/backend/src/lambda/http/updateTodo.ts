@@ -6,8 +6,8 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 
 //import { updateTodo } from '../../businessLogic/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import { updateTodoByUserIdAndTodoId } from '../../helpers/todosAcess'
 import { getUserId } from '../utils'
+import { updateTodoByUserIdWithTodoId } from '../../helpers/todos'
 //import { getUserId } from '../utils'
 
 export const handler = middy(
@@ -15,7 +15,7 @@ export const handler = middy(
     const todoId = event.pathParameters.todoId
     const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
     console.log(updatedTodo)
-    await updateTodoByUserIdAndTodoId(getUserId(event),todoId,updatedTodo)
+    await updateTodoByUserIdWithTodoId(getUserId(event),todoId,updatedTodo)
     // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
     return {
       statusCode: 204,
