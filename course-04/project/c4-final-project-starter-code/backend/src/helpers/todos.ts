@@ -11,7 +11,7 @@ import { getUserId } from '../lambda/utils';
 import { TodoItem } from '../models/TodoItem';
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest';
 import { AttachmentUtils } from './attachmentUtils';
-import { createTodo, deleteTodoByUserIdWithTodoId, getTodosForUser, updateTodoAttachmentUrl, updateTodoByUserIdAndTodoId } from './todosAcess';
+import { createTodo, deleteTodoByUserIdWithTodoId, getTodosForUser, searchTodos, updateTodoAttachmentUrl, updateTodoByUserIdAndTodoId } from './todosAcess';
 const attachmentUtils = new AttachmentUtils();
 
 // // TODO: Implement businessLogic
@@ -46,6 +46,13 @@ export async function deleteTodoByUserIdAndTodoId(
   todoId: string
 ): Promise<TodoItem> {
   return await deleteTodoByUserIdWithTodoId(userId,todoId);
+}
+
+export async function searchTodosByName(
+  userId: string,
+  keyword: string
+): Promise<TodoItem[]> {
+  return await searchTodos(userId, keyword);
 }
 
 export async function createAttachmentPresignedUrl(

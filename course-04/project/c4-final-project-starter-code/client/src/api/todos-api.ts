@@ -3,6 +3,7 @@ import { Todo } from '../types/Todo';
 import { CreateTodoRequest } from '../types/CreateTodoRequest';
 import Axios from 'axios'
 import { UpdateTodoRequest } from '../types/UpdateTodoRequest';
+import { SearchTodoRequest } from '../types/SearchTodoRequest';
 
 export async function getTodos(idToken: string): Promise<Todo[]> {
   console.log('Fetching todos')
@@ -53,6 +54,22 @@ export async function deleteTodo(
       'Authorization': `Bearer ${idToken}`
     }
   })
+}
+
+export async function searchTodos(
+  idToken: string,
+  searchReq: SearchTodoRequest
+): Promise<Todo[]> {
+  console.log('Search todo ', searchReq)
+
+  const result = await Axios.post(`${apiEndpoint}/todos/search`,JSON.stringify(searchReq),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`
+      }
+    })
+  return result.data.items
 }
 
 export async function getUploadUrl(

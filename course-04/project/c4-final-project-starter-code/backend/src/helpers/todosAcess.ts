@@ -82,6 +82,27 @@ export async function updateTodoAttachmentUrl(userId: string,todoId: string,atta
     return item as TodoItem
   }
 
+export async function searchTodos(userId: string, keyword: string): Promise<TodoItem[]> {
+    console.log('searchTodos for user ', userId, ' by name ', keyword);
+
+    const result = await docClient
+      .query({
+        TableName: todosTable,
+        KeyConditionExpression: '#userId =:i',
+        ExpressionAttributeNames: {
+          '#userId': 'userId'
+        },
+        ExpressionAttributeValues: {
+          ':i': userId
+        }
+      })
+      .promise();
+
+    let items = result.Items;
+    items = items.filter((item) => item.name.includes(keyword));
+    return items as TodoItem[];
+}
+
 export async function updateTodoByUserIdAndTodoId(
     userId: string,
     todoId: string,
